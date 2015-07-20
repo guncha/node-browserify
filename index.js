@@ -69,6 +69,7 @@ function Browserify (files, opts) {
         : bresolve
     ;
     self._syntaxCache = {};
+    self._fs = opts.fs || fs;
 
     var ignoreTransform = [].concat(opts.ignoreTransform).filter(Boolean);
     self._filterTransform = function (tr) {
@@ -483,7 +484,7 @@ Browserify.prototype._createDeps = function (opts) {
                 }
             }
             if (err) cb(err, file, pkg)
-            else if (file) fs.realpath(file, function (err, res) {
+            else if (file) self._fs.realpath(file, function (err, res) {
                 cb(err, res, pkg);
             });
             else cb(err, null, pkg)
